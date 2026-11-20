@@ -750,37 +750,72 @@ public class FurnitureTable extends JTable implements View, Printable {
           return headerRendererLabel;
         }
       };
+    //task4
+    List<TableColumn> printedColumns = new ArrayList<TableColumn>();
+    boolean levelColumn = false;
+    // collection of visible columns
     for (int columnIndex = 0, n = columnModel.getColumnCount(); columnIndex < n; columnIndex++) {
       final TableColumn tableColumn = columnModel.getColumn(columnIndex);
-      // Create a printable column from existing table column
-      TableColumn printableColumn = new TableColumn();
-      printableColumn.setIdentifier(tableColumn.getIdentifier());
-      printableColumn.setHeaderValue(tableColumn.getHeaderValue());
-      TableCellRenderer printableCellRenderer = new TableCellRenderer() {
-          public Component getTableCellRendererComponent(JTable table, Object value, 
-                                 boolean isSelected, boolean hasFocus, int row, int column) {
-            // Delegate rendering to existing cell renderer 
-            TableCellRenderer cellRenderer = tableColumn.getCellRenderer();
-            Component rendererComponent = cellRenderer.getTableCellRendererComponent(table, value, 
-                isSelected, hasFocus, row, column);
+      printedColumns.add(tableColumn);
+      // Case 1: table has a level column
+      if (HomePieceOfFurniture.SortableProperty.LEVEL.equals(tableColumn.getIdentifier())) {
+        levelColumn = true;
+      }
+      ;
+      // Case 2: table don't have a level column, then we need to add it.
+      if (!levelColumn && columnModel instanceof FurnitureTableColumnModel) {// if level property isnt in level columns and columnModel is instance of FurnitureTableColumnModel
+        TableColumn thelevelColumn =
+                ((FurnitureTableColumnModel) columnModel).availableColumns.get(
+                        HomePieceOfFurniture.SortableProperty.LEVEL);
+        if (thelevelColumn != null) {
+          printedColumns.add(thelevelColumn);
+        }
+      }
+    };
+      // take each table column object from printedColumns and assign it to asigntc.
+      // stop when there are no more columns left
+      for (final TableColumn asigntc: printedColumns ){
+        TableColumn printableColumn = new TableColumn(); // new column we can use to transfer properties without messing with original table's column
+        printableColumn.setIdentifier(asigntc.getIdentifier()); // retrieve information form original column to assign to the new one
+        printableColumn.setHeaderValue(asigntc.getHeaderValue());
+
+        TableCellRenderer printableCellRenderer = new TableCellRenderer() {
+          public Component getTableCellRendererComponent(JTable table,
+                                                         Object value,
+                                                         boolean isSelected,
+                                                         boolean hasFocus,
+                                                         int row,
+                                                         int column) {
+            // Delegate rendering to existing cell renderer
+            TableCellRenderer cellRenderer = asigntc.getCellRenderer();
+            Component rendererComponent = cellRenderer.getTableCellRendererComponent(table, value,
+                    isSelected, hasFocus, row, column);
             if (rendererComponent instanceof JCheckBox) {
               // Prefer a x sign for boolean values instead of check boxes
-              rendererComponent = defaultRenderer.getTableCellRendererComponent(table, 
-                  ((JCheckBox)rendererComponent).isSelected() ? "x" : "", false, false, row, column);
+              rendererComponent = defaultRenderer.getTableCellRendererComponent(table,
+                      ((JCheckBox)rendererComponent).isSelected() ? "x" : "", false, false, row, column);
             }
             rendererComponent.setBackground(Color.WHITE);
             rendererComponent.setForeground(Color.BLACK);
             return rendererComponent;
-          }
+          };
+
         };
-      // Change printable column cell renderer 
-      printableColumn.setCellRenderer(printableCellRenderer);
-      // Change printable column header renderer
-      printableColumn.setHeaderRenderer(printableHeaderRenderer);
-      printableColumnModel.addColumn(printableColumn);
-    }    
+        printableColumn.setCellRenderer(printableCellRenderer);
+        printableColumn.setHeaderValue(printableHeaderRenderer);
+        printableColumnModel.addColumn(printableColumn);
+      };
+
+    // task4 print table with level, add table level column from existing table column
+    // check if level column is in the table
+    // 2 case where table has a level column, and it doesn't have it -> acess table columns and find level column
+    //and add a new level column
+    // then change printable level to column to cell renderer.
+    // for loop
+
+
     return print(g, pageFormat, pageIndex, printableColumnModel, Color.BLACK);
-  }
+  };
 
   /**
    * Prints this table in Event Dispatch Thread.

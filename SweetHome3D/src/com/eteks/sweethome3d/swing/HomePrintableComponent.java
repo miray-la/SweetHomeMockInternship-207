@@ -347,29 +347,34 @@ public class HomePrintableComponent extends JComponent implements Printable {
         && (homePrint == null || homePrint.isFurniturePrinted())) {
       FurnitureTable furnitureTable = null;
       final FurnitureTable.FurnitureFilter furnitureFilter;
-      if (furnitureView instanceof FurnitureTable
-          && (homePrint == null
-              || homePrint.isPlanPrinted()
-              || homePrint.isView3DPrinted())) {
-        final Level selectedLevel = home.getSelectedLevel();
+      if (furnitureView instanceof FurnitureTable) //task4 removed extra lines so that furnitures will shown anycase
+        {
+
         furnitureTable = (FurnitureTable)furnitureView;
         furnitureFilter = furnitureTable.getFurnitureFilter();
         furnitureTable.setFurnitureFilter(new FurnitureTable.FurnitureFilter() {
             public boolean include(Home home, HomePieceOfFurniture piece) {
               // Print only furniture at selected level when the plan or the 3D view is printed
               return (furnitureFilter == null || furnitureFilter.include(home, piece))
-                  && piece.isAtLevel(selectedLevel)
+
                   && (piece.getLevel() == null || piece.getLevel().isViewable());
+              // task4  final Level selectedLevel = home.getSelectedLevel(); and && piece.isAtLevel(selectedLevel)
+              // removed since they limit the program to only show the current/chosen level f
             }
           });
       } else {
         furnitureFilter = null;
       }
-      // Try to print next furniture view page      
-      pageExists = ((Printable)furnitureView).print(g2D, pageFormat, page);
-      if (furnitureTable != null) {
-        // Restore previous filter
-        ((FurnitureTable)furnitureView).setFurnitureFilter(furnitureFilter);
+      // Try to print next furniture view pag
+      try {
+        pageExists = ((Printable)furnitureView).print(g2D, pageFormat, page);
+      } finally {
+        if (furnitureTable != null) {
+          // Restore previous filter
+          ((FurnitureTable)furnitureView).setFurnitureFilter(furnitureFilter);
+      } //task4 updated code; the furniture will be shown anytime
+
+
       }
       if (pageExists == PAGE_EXISTS
           && !this.printablePages.contains(page)) {
