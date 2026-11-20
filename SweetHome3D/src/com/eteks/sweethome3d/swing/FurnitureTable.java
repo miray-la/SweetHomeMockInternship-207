@@ -727,17 +727,17 @@ public class FurnitureTable extends JTable implements View, Printable {
    * Prints this component to make it fill <code>pageFormat</code> imageable size.
    */
   public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
-    // Create a printable column model from the column model of this table 
+    // Create a printable column model from the column model of this table
     // with printable renderers for each column
     DefaultTableColumnModel printableColumnModel = new DefaultTableColumnModel();
     TableColumnModel columnModel = getColumnModel();
     final DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
     defaultRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
     TableCellRenderer printableHeaderRenderer = new TableCellRenderer() {
-        public Component getTableCellRendererComponent(JTable table, Object value, 
+        public Component getTableCellRendererComponent(JTable table, Object value,
                                    boolean isSelected, boolean hasFocus, int row, int column) {
           // Delegate rendering to default cell renderer
-          JLabel headerRendererLabel = (JLabel)defaultRenderer.getTableCellRendererComponent(table, value, 
+          JLabel headerRendererLabel = (JLabel)defaultRenderer.getTableCellRendererComponent(table, value,
               isSelected, hasFocus, row, column);
           // Don't display sort icon
           headerRendererLabel.setIcon(null);
