@@ -105,9 +105,9 @@ public class HomePieceOfFurniture extends HomeObject implements PieceOfFurniture
       });
     SORTABLE_PROPERTY_COMPARATORS.put(SortableProperty.VOLUME, new Comparator<HomePieceOfFurniture>() {
       public int compare(HomePieceOfFurniture piece1, HomePieceOfFurniture piece2) {
-        return HomePieceOfFurniture.compare(piece1.volume, piece2.volume);
+        return HomePieceOfFurniture.compare(piece1.getVolume(), piece2.getVolume());
       }
-    });   /*task3 */
+    });   //task3 //
     SORTABLE_PROPERTY_COMPARATORS.put(SortableProperty.DEPTH, new Comparator<HomePieceOfFurniture>() {
         public int compare(HomePieceOfFurniture piece1, HomePieceOfFurniture piece2) {
           return HomePieceOfFurniture.compare(piece1.depth, piece2.depth);

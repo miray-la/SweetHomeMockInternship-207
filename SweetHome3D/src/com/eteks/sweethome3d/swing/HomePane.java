@@ -395,6 +395,8 @@ public class HomePane extends JRootPane implements HomeView {
         furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.DEPTH);
     createAction(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT, preferences, 
         furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.HEIGHT);
+    createAction(ActionType.DISPLAY_HOME_FURNITURE_VOLUME, preferences,
+            furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.VOLUME); //task3//
     createAction(ActionType.DISPLAY_HOME_FURNITURE_X, preferences, 
         furnitureController, "toggleFurnitureVisibleProperty", HomePieceOfFurniture.SortableProperty.X);
     createAction(ActionType.DISPLAY_HOME_FURNITURE_Y, preferences, 
@@ -1425,8 +1427,10 @@ public class HomePane extends JRootPane implements HomeView {
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.WIDTH);
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_DEPTH, 
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.DEPTH);
-    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT, 
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_HEIGHT,
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.HEIGHT);
+    addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_VOLUME,
+            displayPropertyActions, HomePieceOfFurniture.SortableProperty.VOLUME); /*task3*/
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_X, 
         displayPropertyActions, HomePieceOfFurniture.SortableProperty.X);
     addActionToMap(ActionType.DISPLAY_HOME_FURNITURE_Y, 
